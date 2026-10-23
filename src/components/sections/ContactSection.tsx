@@ -10,6 +10,7 @@ export function ContactSection() {
   const [copied, setCopied] = useState<string | null>(null)
   const [interest, setInterest] = useState<string[]>([])
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const copy = (text: string, key: string) => {
     navigator.clipboard.writeText(text)
@@ -21,6 +22,33 @@ export function ContactSection() {
     setInterest((prev) =>
       prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
     )
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setLoading(true)
+    const form = e.currentTarget
+    const formData = new FormData(form)
+    try {
+      await fetch('https://formsubmit.co/ajax/koushikshet2401@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: `New Private Enquiry from ${formData.get('name')}`,
+          name: formData.get('name'),
+          phone: formData.get('phone') || 'Not provided',
+          email: formData.get('email'),
+          interests: interest.join(', ') || 'General enquiry',
+          message: formData.get('message') || '',
+          _captcha: 'false',
+        }),
+      })
+    } catch (err) {
+      console.warn('Form dispatch error:', err)
+    } finally {
+      setLoading(false)
+      setSubmitted(true)
+    }
   }
 
   return (
@@ -69,10 +97,10 @@ export function ContactSection() {
               <div className="flex items-center justify-between py-4 border-b border-[var(--border-light)]">
                 <div className="flex items-center gap-3">
                   <Mail size={14} className="text-[var(--text-muted)]" strokeWidth={1.5} />
-                  <span className="text-[var(--text-secondary)] text-sm">ehsanullah.biz@gmail.com</span>
+                  <span className="text-[var(--text-secondary)] text-sm">koushikshet2401@gmail.com</span>
                 </div>
                 <button
-                  onClick={() => copy('ehsanullah.biz@gmail.com', 'email')}
+                  onClick={() => copy('koushikshet2401@gmail.com', 'email')}
                   className="label text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-1.5"
                 >
                   {copied === 'email' ? <Check size={12} /> : <Copy size={12} />}
@@ -103,7 +131,7 @@ export function ContactSection() {
               </div>
             ) : (
               <form
-                onSubmit={(e) => { e.preventDefault(); setSubmitted(true) }}
+                onSubmit={handleSubmit}
                 className="space-y-6"
               >
                 {/* Fields */}
@@ -148,6 +176,7 @@ export function ContactSection() {
                 <div className="flex flex-col gap-2">
                   <label className="label text-[var(--text-muted)]">Tell us about your plans</label>
                   <textarea
+                    name="message"
                     rows={4}
                     className="w-full bg-transparent border-b border-[var(--border-default)] py-3 text-[var(--text-primary)] text-sm placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--text-primary)] transition-colors duration-300 resize-none"
                   />
@@ -159,9 +188,10 @@ export function ContactSection() {
 
                 <button
                   type="submit"
-                  className="w-full py-4 bg-[var(--text-primary)] text-[var(--bg-primary)] text-xs tracking-widest uppercase font-medium hover:bg-[var(--accent)] transition-colors duration-300"
+                  disabled={loading}
+                  className="w-full py-4 bg-[var(--text-primary)] text-[var(--bg-primary)] text-xs tracking-widest uppercase font-medium hover:bg-[var(--accent)] transition-colors duration-300 disabled:opacity-50"
                 >
-                  Send Enquiry
+                  {loading ? 'Sending Enquiry...' : 'Send Enquiry'}
                 </button>
               </form>
             )}

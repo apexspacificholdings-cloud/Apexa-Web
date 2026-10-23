@@ -47,7 +47,7 @@ export function Footer() {
             <p className="label text-[var(--text-muted)] mb-6">Contact</p>
             <div className="flex flex-col gap-3 text-sm text-[var(--text-secondary)]">
               <span>+91 91106 56326</span>
-              <span>ehsanullah.biz@gmail.com</span>
+              <span>koushikshet2401@gmail.com</span>
               <span className="text-[var(--text-muted)] font-light">India · UAE · Australia · USA</span>
             </div>
           </div>
