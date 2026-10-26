@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Apexa Web — Ultra-Luxury Architectural & Real Estate Platform
 
-## Getting Started
+A cinematic, modern web application for an ultra-luxury real estate development and advisory firm. Designed with immersive typography, fluid Lenis smooth scrolling, GSAP & Framer Motion micro-interactions, responsive video showcases, and full DPDP-compliant enquiry architecture.
 
-First, run the development server:
+---
+
+## 🚀 Quick Start
+
+### 1. Prerequisites
+- **Node.js**: `v20.x` or later (LTS recommended)
+- **Package Manager**: `pnpm` (recommended) or `npm` / `yarn`
+
+### 2. Installation
+Clone the repository and install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/koushikshet2401/Apexa-Web.git
+cd Apexa-Web
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Install packages:
+```bash
+# Recommended
+pnpm install
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Alternatively
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Run Locally
+Start the development server:
 
-## Learn More
+```bash
+pnpm dev
+# or: npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ Build & Production
 
-## Deploy on Vercel
+To compile an optimized production build:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm build
+pnpm start
+# or: npm run build && npm run start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📦 Tech Stack
+
+- **Framework**: [Next.js 15 (App Router)](https://nextjs.org/)
+- **Language**: TypeScript 5
+- **Styling**: Tailwind CSS
+- **Smooth Scrolling**: [Lenis](https://lenis.darkroom.engineering/)
+- **Animation**: [Framer Motion](https://www.framer.com/motion/) & [GSAP](https://gsap.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Carousels**: [Embla Carousel](https://www.embla-carousel.com/)
+
+---
+
+## 📁 Project Structure
+
+```
+├── public/                 # Static assets (images, high-res videos, svgs)
+│   ├── images/             # Property photography
+│   └── videos/             # Ambient background & showcase videos
+├── src/
+│   ├── app/                # Next.js App Router (pages & API endpoints)
+│   │   ├── (public)/       # Public routes (properties, services, privacy, etc.)
+│   │   ├── api/            # API routes (rate-limited enquiry endpoint)
+│   │   ├── layout.tsx      # Root layout & providers
+│   │   └── page.tsx        # Homepage
+│   ├── components/
+│   │   ├── layout/         # Navigation & Footer
+│   │   ├── providers/      # Smooth scroll & theme providers
+│   │   ├── sections/       # Hero, Gallery, About, Contact sections
+│   │   └── ui/             # Reusable UI widgets & forms
+│   ├── data/               # Curated properties & collection datasets
+│   └── lib/                # Shared utilities
+├── requirement.txt         # Detailed system requirements & install guide
+├── package.json
+└── tailwind.config.ts
+```
+
+---
+
+## 📄 License & Ownership
+Copyright © Apexa Luxury Real Estate. All rights reserved.

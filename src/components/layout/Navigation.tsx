@@ -5,16 +5,15 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useTheme } from '@/components/providers/ThemeProvider'
-import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import { ApexMonogram } from '@/components/ui/ApexMonogram'
 import { cn } from '@/lib/utils'
 
 const navLinks = [
-  { label: 'About',      href: '/#about' },
-  { label: 'Residences', href: '/properties' },
-  { label: 'Services',   href: '/#services' },
-  { label: 'Locations',  href: '/#locations' },
-  { label: 'Contact',    href: '/#contact' },
+  { label: 'About',        href: '/#about' },
+  { label: 'Collection',   href: '/#collection' },
+  { label: 'Residences',   href: '/properties' },
+  { label: 'Services',     href: '/#services' },
+  { label: 'Contact',      href: '/#contact' },
 ]
 
 export function Navigation({ hasHero }: { hasHero?: boolean }) {
@@ -25,12 +24,12 @@ export function Navigation({ hasHero }: { hasHero?: boolean }) {
   const isDarkHero =
     hasHero !== undefined
       ? hasHero
-      : pathname === '/' || pathname === '/properties/aurelia-villa' || pathname === '/properties/verdant-house'
+      : pathname === '/' || pathname.startsWith('/destinations') || pathname.startsWith('/services') || pathname.startsWith('/properties') || pathname.startsWith('/residences')
 
   const isDarkHeader = !scrolled && isDarkHero
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60)
+    const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -51,64 +50,69 @@ export function Navigation({ hasHero }: { hasHero?: boolean }) {
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
           isDarkHeader
-            ? 'bg-transparent'
-            : 'bg-[var(--bg-primary)]/90 backdrop-blur-md border-b border-[var(--border-light)]'
+            ? 'bg-gradient-to-b from-black/50 via-black/20 to-transparent'
+            : 'bg-[#171411]/90 backdrop-blur-md border-b border-white/10'
         )}
       >
         <div className="container-wide">
           <div className="flex items-center justify-between h-16 lg:h-20">
 
-            {/* Logo */}
+            {/* Brand Identity: Monogram + Wordmark */}
             <Link
               href="/"
-              className={cn(
-                'flex flex-col leading-none transition-colors duration-300',
-                isDarkHeader ? 'text-white' : 'text-[var(--text-primary)]'
-              )}
+              id="navbar-brand-logo"
+              className="flex items-center gap-3.5 leading-none group transition-opacity duration-300 hover:opacity-90"
+              aria-label="Apexa Global Estates Home"
             >
-              <span
-                className="heading-display font-medium"
-                style={{ fontSize: '1.125rem', letterSpacing: '0.2em' }}
-              >
-                APEX
-              </span>
-              <span
-                className="font-sans font-light"
-                style={{ fontSize: '0.55rem', letterSpacing: '0.3em', marginTop: '1px', opacity: 0.7 }}
-              >
-                GLOBAL ESTATES
-              </span>
+              <ApexMonogram
+                size={34}
+                strokeWidth={0.9}
+                color="#C5A66A"
+                className="transition-colors duration-300"
+              />
+              <div className="flex flex-col leading-none">
+                <span
+                  className="font-serif font-light text-[#F1E8D8] transition-colors duration-300"
+                  style={{
+                    fontSize: '1.05rem',
+                    letterSpacing: '0.24em',
+                  }}
+                >
+                  APEXA
+                </span>
+                <span
+                  className="font-sans font-light text-[#C5A66A] transition-colors duration-300"
+                  style={{
+                    fontSize: '0.52rem',
+                    letterSpacing: '0.32em',
+                    marginTop: '2.5px',
+                    opacity: 0.9,
+                  }}
+                >
+                  GLOBAL ESTATES
+                </span>
+              </div>
             </Link>
 
-            {/* Desktop links */}
-            <nav className="hidden lg:flex items-center gap-8">
+            {/* Desktop links inside refined luxury container */}
+            <nav className="hidden lg:flex items-center gap-7 px-6 py-2.5 rounded-full bg-[#171411]/55 backdrop-blur-md border border-white/10 shadow-sm">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={cn(
-                    'label transition-colors duration-300 hover:text-[var(--text-primary)]',
-                    isDarkHeader ? 'text-white/70 hover:!text-white' : 'text-[var(--text-muted)]'
-                  )}
+                  className="text-xs uppercase tracking-[0.16em] text-[#F1E8D8]/75 hover:text-[#F1E8D8] transition-opacity duration-200 font-sans"
                 >
                   {link.label}
                 </Link>
               ))}
             </nav>
 
-            {/* Right side */}
+            {/* Right side: Enquire CTA & Mobile Menu (No Dark Mode button) */}
             <div className="flex items-center gap-4">
-              <ThemeToggle />
-
               {/* Enquire CTA — desktop only */}
               <Link
                 href="/#contact"
-                className={cn(
-                  'hidden lg:inline-flex items-center px-5 py-2.5 text-xs tracking-widest font-medium uppercase transition-all duration-300',
-                  isDarkHeader
-                    ? 'bg-[var(--ivory)] text-[var(--obsidian)] hover:bg-[var(--accent)] hover:text-white'
-                    : 'bg-[var(--text-primary)] text-[var(--bg-primary)] hover:bg-[var(--accent)]'
-                )}
+                className="hidden lg:inline-flex items-center px-6 py-2.5 text-xs tracking-widest font-medium uppercase rounded-full border border-white/20 bg-white/5 text-[#F1E8D8] hover:bg-white/10 hover:border-white/30 transition-all duration-300"
               >
                 Enquire
               </Link>
@@ -116,10 +120,7 @@ export function Navigation({ hasHero }: { hasHero?: boolean }) {
               {/* Mobile hamburger */}
               <button
                 onClick={() => setMobileOpen(true)}
-                className={cn(
-                  'lg:hidden p-1.5 transition-colors duration-300',
-                  isDarkHeader ? 'text-white' : 'text-[var(--text-primary)]'
-                )}
+                className="lg:hidden p-1.5 transition-colors duration-300 text-[#F1E8D8]"
                 aria-label="Open menu"
               >
                 <Menu size={22} strokeWidth={1.5} />
